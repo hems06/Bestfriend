@@ -32,19 +32,23 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     showSlides();
 
-    // Music play/pause
+    // Music play/pause (Fixed for mobile)
     const music = document.getElementById("bg-music");
     const musicBtn = document.getElementById("music-btn");
 
     if (musicBtn && music) {
-        musicBtn.addEventListener("click", function () {
+        function toggleMusic() {
             if (music.paused) {
-                music.play();
+                music.play().catch(error => console.log("Playback failed:", error)); // Catch autoplay errors
                 musicBtn.textContent = "⏸ Pause Music";
             } else {
                 music.pause();
                 musicBtn.textContent = "🎵 Play Music";
             }
-        });
+        }
+
+        // Event for click and touch
+        musicBtn.addEventListener("click", toggleMusic);
+        musicBtn.addEventListener("touchstart", toggleMusic);
     }
 });
