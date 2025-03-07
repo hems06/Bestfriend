@@ -1,4 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // Surprise message reveal (Works on mobile & desktop)
+    const surpriseBtn = document.getElementById("surprise-btn");
+    const hiddenMessage = document.getElementById("hidden-message");
+
+    if (surpriseBtn && hiddenMessage) {
+        surpriseBtn.addEventListener("click", function () {
+            hiddenMessage.style.display = hiddenMessage.style.display === "block" ? "none" : "block";
+        });
+    }
+
     // Fade-in effect
     const fadeInElements = document.querySelectorAll(".fade-in");
     function revealElements() {
@@ -22,22 +32,19 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     showSlides();
 
-    // Surprise message
-    document.getElementById("surprise-btn").addEventListener("click", function () {
-        document.getElementById("hidden-message").style.display = "block";
-    });
-
     // Music play/pause
     const music = document.getElementById("bg-music");
     const musicBtn = document.getElementById("music-btn");
 
-    musicBtn.addEventListener("click", function () {
-        if (music.paused) {
-            music.play();
-            musicBtn.textContent = "⏸ Pause Music";
-        } else {
-            music.pause();
-            musicBtn.textContent = "🎵 Play Music";
-        }
-    });
+    if (musicBtn && music) {
+        musicBtn.addEventListener("click", function () {
+            if (music.paused) {
+                music.play();
+                musicBtn.textContent = "⏸ Pause Music";
+            } else {
+                music.pause();
+                musicBtn.textContent = "🎵 Play Music";
+            }
+        });
+    }
 });
