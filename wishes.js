@@ -11,33 +11,33 @@ document.addEventListener("DOMContentLoaded", function () {
     revealElements();
     window.addEventListener("scroll", revealElements);
 
-    // Slideshow functionality
+    // Slideshow
     let slideIndex = 0;
     function showSlides() {
         let slides = document.querySelectorAll(".slide");
         slides.forEach(slide => slide.style.display = "none");
         slideIndex = (slideIndex + 1) % slides.length;
         slides[slideIndex].style.display = "block";
-        setTimeout(showSlides, 5000); // Change slide every 5 seconds
+        setTimeout(showSlides, 20000); // 20 seconds
     }
     showSlides();
 
-    // Surprise message reveal
+    // Surprise message
     document.getElementById("surprise-btn").addEventListener("click", function () {
-        document.getElementById("hidden-message").classList.toggle("visible");
+        document.getElementById("hidden-message").style.display = "block";
     });
 
-    // Background music play/pause
+    // Music play/pause
     const music = document.getElementById("bg-music");
     const musicBtn = document.getElementById("music-btn");
 
     musicBtn.addEventListener("click", function () {
         if (music.paused) {
             music.play();
-            musicBtn.textContent = "⏸ Pause";
+            musicBtn.textContent = "⏸ Pause Music";
         } else {
             music.pause();
-            musicBtn.textContent = "🎵 Play";
+            musicBtn.textContent = "🎵 Play Music";
         }
     });
 });
