@@ -1,43 +1,32 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Fade-in effect
-    const fadeInElements = document.querySelectorAll(".fade-in");
-    function revealElements() {
-        fadeInElements.forEach(element => {
-            if (element.getBoundingClientRect().top < window.innerHeight - 50) {
-                element.classList.add("visible");
-            }
-        });
-    }
-    revealElements();
-    window.addEventListener("scroll", revealElements);
-
-    // Slideshow
-    let slideIndex = 0;
-    function showSlides() {
-        let slides = document.querySelectorAll(".slide");
-        slides.forEach(slide => slide.style.display = "none");
-        slideIndex = (slideIndex + 1) % slides.length;
-        slides[slideIndex].style.display = "block";
-        setTimeout(showSlides, 20000); // 20 seconds
-    }
-    showSlides();
-
-    // Surprise message
-    document.getElementById("surprise-btn").addEventListener("click", function () {
-        document.getElementById("hidden-message").style.display = "block";
-    });
-
-    // Music play/pause
     const music = document.getElementById("bg-music");
     const musicBtn = document.getElementById("music-btn");
 
+    // Load play state from localStorage
+    if (localStorage.getItem("musicPlaying") === "true") {
+        music.play().catch(() => {});  // Handle autoplay restrictions
+        musicBtn.innerHTML = "⏸ Pause Music";
+    }
+
     musicBtn.addEventListener("click", function () {
         if (music.paused) {
-            music.play();
-            musicBtn.textContent = "⏸ Pause Music";
+            music.play().then(() => {
+                musicBtn.innerHTML = "⏸ Pause Music";
+                localStorage.setItem("musicPlaying", "true"); // Save state
+            }).catch(error => console.error("Playback failed:", error));
         } else {
-            music.pause();
-            musicBtn.textContent = "🎵 Play Music";
+            // Smoothly reduce volume before pausing
+            let fadeOut = setInterval(() => {
+                if (music.volume > 0.1) {
+                    music.volume -= 0.1;
+                } else {
+                    clearInterval(fadeOut);
+                    music.pause();
+                    music.volume = 1; // Reset volume
+                    musicBtn.innerHTML = "🎵 Play Music";
+                    localStorage.setItem("musicPlaying", "false"); // Save state
+                }
+            }, 100);
         }
     });
 });
